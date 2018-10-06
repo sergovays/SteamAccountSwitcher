@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Poggers.Properties
+namespace SteamAccountSwitcher.Properties
 {
 
 
