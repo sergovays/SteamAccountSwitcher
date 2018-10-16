@@ -30,7 +30,7 @@ namespace SteamAccountSwitcher
 		{
 			InitializeComponent();
 		}
-
+		
 		private async void button1_Click(object sender, EventArgs e)
 		{
 			if (!this.action.Text.Equals("Idle"))
@@ -128,7 +128,7 @@ namespace SteamAccountSwitcher
 			// https://developer.valvesoftware.com/wiki/Command_Line_Options#Steam_.28Windows.29
 			ProcessStartInfo startInfo = new ProcessStartInfo();
 			startInfo.FileName = r.ToString() + "/steam.exe";
-			startInfo.Arguments = "-login " + username + " " + password;
+			startInfo.Arguments = "-noverifyfiles -login " + username + " " + password;
 			Process.Start(startInfo);
 
 			// Return to waiting
