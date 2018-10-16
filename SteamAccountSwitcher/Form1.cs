@@ -11,10 +11,19 @@ using System.Diagnostics;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using Microsoft.Win32;
-using System.Json;
+using System.Web.Script.Serialization;
 
 namespace SteamAccountSwitcher
 {
+	class accountGen
+	{
+		public int success = -1;
+		public string username = null;
+		public string password = null;
+		public string email = null;
+		public string error = null;
+	}
+
 	public partial class AccountSwitcher : Form
 	{
 		public AccountSwitcher()
@@ -29,7 +38,7 @@ namespace SteamAccountSwitcher
 				MessageBox.Show("Currently busy. Please wait until the status changes to \"Idle\"");
 				return;
 			}
-
+			
 			// Terminate steam
 			this.action.Text = "Terminating Steam...";
 
@@ -65,11 +74,12 @@ namespace SteamAccountSwitcher
 				this.action.Text = "Idle";
 				return;
 			}
-
-			JsonValue json = null;
+			
+			JavaScriptSerializer oSerializer = new JavaScriptSerializer();
+			accountGen account = null;
 			try
 			{
-				json = JsonValue.Parse(responseString);
+				account = oSerializer.Deserialize<accountGen>(responseString);
 			}
 			catch (Exception ex)
 			{
@@ -78,17 +88,17 @@ namespace SteamAccountSwitcher
 				this.action.Text = "Idle";
 				return;
 			}
-
-			if (!json.ContainsKey("success") || json["success"] != 1 || !json.ContainsKey("username") || !json.ContainsKey("password"))
+			
+			if (account == null || account.success != 1 || account.username == null || account.password == null)
 			{
 				// Result is not a success, does not contain "username" or does not contain "password"
-				MessageBox.Show(responseString);
+				MessageBox.Show(account.error != null ? account.error : responseString);
 				this.action.Text = "Idle";
 				return;
 			}
 
-			string username = json["username"];
-			string password = json["password"];
+			string username = account.username;
+			string password = account.password;
 
 			if (username == null || password == null)
 			{
