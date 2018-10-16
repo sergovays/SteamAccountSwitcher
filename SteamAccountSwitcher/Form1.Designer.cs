@@ -32,13 +32,14 @@
 			this.label2 = new System.Windows.Forms.Label();
 			this.action = new System.Windows.Forms.Label();
 			this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+			this.settings = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// button
 			// 
 			this.button.Location = new System.Drawing.Point(12, 53);
 			this.button.Name = "button";
-			this.button.Size = new System.Drawing.Size(208, 23);
+			this.button.Size = new System.Drawing.Size(179, 23);
 			this.button.TabIndex = 0;
 			this.button.Text = "Generate New Account";
 			this.button.UseVisualStyleBackColor = true;
@@ -75,11 +76,24 @@
 			this.linkLabel1.Text = "Created by: @BeepFelix";
 			this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
 			// 
+			// settings
+			// 
+			this.settings.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+			this.settings.Location = new System.Drawing.Point(197, 53);
+			this.settings.Name = "settings";
+			this.settings.Size = new System.Drawing.Size(23, 23);
+			this.settings.TabIndex = 5;
+			this.settings.Text = "O";
+			this.settings.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+			this.settings.UseVisualStyleBackColor = true;
+			this.settings.Click += new System.EventHandler(this.settings_Click);
+			// 
 			// AccountSwitcher
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(232, 85);
+			this.Controls.Add(this.settings);
 			this.Controls.Add(this.linkLabel1);
 			this.Controls.Add(this.action);
 			this.Controls.Add(this.label2);
@@ -99,6 +113,7 @@
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Label action;
 		private System.Windows.Forms.LinkLabel linkLabel1;
+		private System.Windows.Forms.Button settings;
 	}
 }
 
