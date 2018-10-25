@@ -122,7 +122,7 @@ namespace SteamAccountSwitcher
 
 			try
 			{
-				responseString = await client.GetStringAsync("http://accgen.undo.it/steam/apit");
+				responseString = await client.GetStringAsync("http://accgen.undo.it/steam/api");
 			}
 			catch(Exception ex)
 			{
@@ -156,6 +156,7 @@ namespace SteamAccountSwitcher
 
 			string username = account.username;
 			string password = account.password;
+			string email = account.email;
 
 			if (username == null || password == null)
 			{
@@ -163,6 +164,17 @@ namespace SteamAccountSwitcher
 				MessageBox.Show(responseString);
 				this.action.Text = "Idle";
 				return;
+			}
+
+			if (email != null)
+			{
+				this.email.LinkVisited = false;
+				this.email.Text = email;
+			}
+			else
+			{
+				this.email.LinkVisited = false;
+				this.email.Text = "";
 			}
 
 			// Start Steam and login
@@ -211,6 +223,12 @@ namespace SteamAccountSwitcher
 		private void settings_Click(object sender, EventArgs e)
 		{
 			options.ShowDialog();
+		}
+
+		private void email_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			this.email.LinkVisited = true;
+			System.Diagnostics.Process.Start("https://asdf.pl/" + this.email.Text);
 		}
 	}
 }
