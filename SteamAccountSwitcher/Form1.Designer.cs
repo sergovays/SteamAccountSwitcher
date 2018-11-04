@@ -34,7 +34,7 @@
 			this.linkLabel1 = new System.Windows.Forms.LinkLabel();
 			this.settings = new System.Windows.Forms.Button();
 			this.label1 = new System.Windows.Forms.Label();
-			this.email = new System.Windows.Forms.LinkLabel();
+			this.emailLabel = new System.Windows.Forms.LinkLabel();
 			this.SuspendLayout();
 			// 
 			// button
@@ -80,12 +80,12 @@
 			// 
 			// settings
 			// 
+			this.settings.BackgroundImage = global::SteamAccountSwitcher.Properties.Resources.gear;
 			this.settings.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
 			this.settings.Location = new System.Drawing.Point(197, 61);
 			this.settings.Name = "settings";
 			this.settings.Size = new System.Drawing.Size(23, 23);
 			this.settings.TabIndex = 5;
-			this.settings.Text = "O";
 			this.settings.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
 			this.settings.UseVisualStyleBackColor = true;
 			this.settings.Click += new System.EventHandler(this.settings_Click);
@@ -99,21 +99,21 @@
 			this.label1.TabIndex = 6;
 			this.label1.Text = "Last email:";
 			// 
-			// email
+			// emailLabel
 			// 
-			this.email.AutoSize = true;
-			this.email.Location = new System.Drawing.Point(72, 32);
-			this.email.Name = "email";
-			this.email.Size = new System.Drawing.Size(0, 13);
-			this.email.TabIndex = 7;
-			this.email.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.email_LinkClicked);
+			this.emailLabel.AutoSize = true;
+			this.emailLabel.Location = new System.Drawing.Point(72, 32);
+			this.emailLabel.Name = "emailLabel";
+			this.emailLabel.Size = new System.Drawing.Size(0, 13);
+			this.emailLabel.TabIndex = 7;
+			this.emailLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.email_LinkClicked);
 			// 
 			// AccountSwitcher
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(232, 96);
-			this.Controls.Add(this.email);
+			this.Controls.Add(this.emailLabel);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.settings);
 			this.Controls.Add(this.linkLabel1);
@@ -137,7 +137,7 @@
 		private System.Windows.Forms.LinkLabel linkLabel1;
 		private System.Windows.Forms.Button settings;
 		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.LinkLabel email;
+		private System.Windows.Forms.LinkLabel emailLabel;
 	}
 }
 
