@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Net.Http;
+using System.Net;
+using System.Security.Authentication;
 using System.Web.Script.Serialization;
 using System.Windows.Forms;
 using System.Xml.Serialization;
@@ -11,13 +12,16 @@ namespace SteamAccountSwitcher
 {
 	public partial class AccountSwitcher : Form
 	{
-		private readonly HttpClient _client = new HttpClient();
-		private readonly Options _options = new Options();
+		private static WebClient _client = new WebClient();
+		private static Options _options = new Options();
 
 		public AccountSwitcher()
 		{
 			InitializeComponent();
+		}
 
+		private void AccountSwitcher_Load(object sender, EventArgs e)
+		{
 			// Config
 			var appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
@@ -86,15 +90,14 @@ namespace SteamAccountSwitcher
 			// Generate account
 			action.Text = "Generating new account...";
 
-			string responseString;
+			string responseString = null;
 
 			try
 			{
-				responseString = await _client.GetStringAsync("http://accgen.undo.it/steam/api");
+				responseString = await _client.DownloadStringTaskAsync("https://accgen.inkcat.net:6969/account");
 			}
 			catch (Exception ex)
 			{
-				// Error while requesting the page
 				MessageBox.Show(ex.Message);
 				action.Text = "Idle";
 				return;
@@ -115,17 +118,16 @@ namespace SteamAccountSwitcher
 				return;
 			}
 
-			if (account == null || account.Success != 1 || account.Username == null || account.Password == null)
+			if (account.login == null || account.password == null || account.email == null)
 			{
-				// Result is not a success, does not contain "username" or does not contain "password"
-				MessageBox.Show(account.Error ?? responseString);
+				MessageBox.Show("Unknown API Response\n\n" + account.ToString());
 				action.Text = "Idle";
 				return;
 			}
-
-			var username = account.Username;
-			var password = account.Password;
-			var email = account.Email;
+			
+			var username = account.login;
+			var password = account.password;
+			var email = account.email;
 
 			if (username == null || password == null)
 			{
@@ -154,10 +156,10 @@ namespace SteamAccountSwitcher
 			    _options.openFileDialog1.FileName == "openFileDialog1")
 			{
 				// Find Steam installation path. First GetValue() is for 64-Bit, second one is for 32-Bit
-				r = Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Valve\Steam", "InstallPath", null);
+				r = Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\Valve\\Steam", "InstallPath", null);
 				if (r == null)
 				{
-					r = Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Valve\Steam", "InstallPath", null);
+					r = Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\Valve\\Steam", "InstallPath", null);
 					if (r == null)
 					{
 						// Steam is not installed
@@ -181,7 +183,19 @@ namespace SteamAccountSwitcher
 				Arguments = "-login " + username + " " + password
 			};
 			if (_options.steamWithNoVerifyFiles.Checked) startInfo.Arguments += " -noverifyfiles";
-			Process.Start(startInfo);
+			
+
+			try
+			{
+				Process.Start(startInfo);
+			}
+			catch (Exception ex)
+			{
+				// Error while starting Steam
+				MessageBox.Show(ex.Message);
+				action.Text = "Idle";
+				return;
+			}
 
 			// Return to waiting
 			action.Text = "Idle";
@@ -201,7 +215,7 @@ namespace SteamAccountSwitcher
 		private void email_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
 			emailLabel.LinkVisited = true;
-			Process.Start("https://asdf.pl/" + emailLabel.Text);
+			Process.Start(emailLabel.Text);
 		}
 	}
 }

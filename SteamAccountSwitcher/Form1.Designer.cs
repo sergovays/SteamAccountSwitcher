@@ -124,6 +124,7 @@
 			this.MaximizeBox = false;
 			this.Name = "AccountSwitcher";
 			this.Text = "Account Switcher";
+			this.Load += new System.EventHandler(this.AccountSwitcher_Load);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

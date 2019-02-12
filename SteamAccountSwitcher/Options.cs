@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Net;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 
@@ -50,11 +51,10 @@ namespace SteamAccountSwitcher
 
 		public class AccountGen
 		{
-			public int Success { get; set; } = -1;
-			public string Username { get; set; } = null;
-			public string Password { get; set; } = null;
-			public string Email { get; set; } = null;
-			public string Error { get; set; } = null;
+			public string login { get; set; }
+			public string password { get; set; }
+			public string email { get; set; }
+			public string steamID { get; set; }
 		}
 	}
 }
